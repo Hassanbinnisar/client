@@ -134,9 +134,28 @@ const AdminDashboard = () => {
   };
 
   const deleteProduct = async (productId) => {
-    if (confirm('Delete this product? This cannot be undone.')) {
+    const result = await Swal.fire({
+      title: 'Delete Product?',
+      text: 'This cannot be undone!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#cf5deb',
+      cancelButtonColor: '#6b7280',
+      confirmButtonText: 'Yes, delete it!',
+      background: '#1a1a1a',
+      color: 'white'
+    });
+
+    if (result.isConfirmed) {
       await deleteDoc(doc(db, 'products', productId));
-      console.log('Product deleted');
+      Swal.fire({
+        icon: 'success',
+        title: 'Deleted!',
+        text: 'Product has been deleted.',
+        confirmButtonColor: '#cf5deb',
+        background: '#1a1a1a',
+        color: 'white'
+      });
       fetchAllData();
     }
   };
